@@ -1,3 +1,3 @@
 # snerh.github.io
 Blah-blah
-[calc.html]
+[https://snerh.github.io/calc.html]
