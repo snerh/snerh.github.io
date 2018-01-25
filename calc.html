@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+  <meta charset="utf-8"/>
    <script type="text/javascript">
       function showResult()
       {
@@ -9,34 +10,44 @@
           var answ = document.forms["myform"]["newinput"].value;
           if (cor_answ==answ){
               div1=document.getElementById("list");
-            div1.textContent=document.forms["myform"]["eq"].value + cor_answ + '\r\n' + div1.textContent;
+            div1.innerHTML = document.forms["myform"]["eq"].value + cor_answ + '<span style="color:green">   &#x2714;</span>' + '\r\n' + div1.innerHTML ;
 //              document.getElementById("list").getAttribute("lable") = 
 //                document.forms["myform"]["eq"].value + cor_answ +"\n"+ text;
-            newQuation();
-            }
+              document.forms["myform"]["newinput"].value="";
+              newQuation();
+            } else
             {   
-                document.forms["myform"]["newinput"].value="";
+              div1=document.getElementById("list");
+              div1.innerHTML = document.forms["myform"]["eq"].value + "_" + '<span style="color:red">   &#x2718;</span>' + '\r\n' + div1.innerHTML ;
+              document.forms["myform"]["newinput"].value="";
             }
          
       }
       
       function newQuation()
       {
+        if (~~(Math.random()*2)==0)
+        {// +
           var x=~~(Math.random()*7+1);
-          var y=~~(Math.random()*2+1);
-          document.forms["myform"]["newinput"].value="";
+          var y=~~(Math.random()*4+1);
           document.forms["myform"]["eq"].value=+x+"+"+y+"=";
           document.forms["myform"]["eq"].setAttribute("data-res",x+y);
+        } else
+        {//-
+          var x=~~(Math.random()*7+2);
+          var y=~~(Math.random()*2+1);
+          document.forms["myform"]["eq"].value=+x+'−'+y+"=";
+          document.forms["myform"]["eq"].setAttribute("data-res",x-y);
+        }
       }
       document.addEventListener('load', newQuation, false);
    </script>
 </head>
-   <body>
+   <body style="font-size:500%">
 
-      <form action="javascript:void(0);showResult();" name="myform">
-         <output name="eq" data-res=0 ></output>
-         <input type="text" name="newinput" autocomplete="off"/>
-         <output name="result"></output>
+      <form action="javascript:void(0);showResult();" name="myform" >
+         <output name="eq" data-res=0 >123</output>
+         <input type="text" name="newinput" autocomplete="off" size=5 style="font-size:100%"/>
       </form>
       <div id="list" style="white-space: pre-line;"></div>
       <script>
