@@ -7,35 +7,43 @@
       {
 
           var cor_answ = document.forms["myform"]["eq"].getAttribute("data-res");
+          var level = document.forms["myform"]["eq"].getAttribute("level")*1;
+          var seq = document.forms["myform"]["eq"].getAttribute("seq")*1;
           var answ = document.forms["myform"]["newinput"].value;
           if (cor_answ==answ){
               div1=document.getElementById("list");
-            div1.innerHTML = document.forms["myform"]["eq"].value + cor_answ + '<span style="color:green">   &#x2714;</span>' + '\r\n' + div1.innerHTML ;
+            div1.innerHTML = document.forms["myform"]["eq"].value + cor_answ + '<span style="color:green">   &#x2714;</span>'  +'\r\n' + div1.innerHTML ;
 //              document.getElementById("list").getAttribute("lable") = 
 //                document.forms["myform"]["eq"].value + cor_answ +"\n"+ text;
               document.forms["myform"]["newinput"].value="";
-              newQuation();
+              document.forms["myform"]["eq"].setAttribute("level",level+(seq**1.5)/20);
+              document.forms["myform"]["eq"].setAttribute("seq",seq+1);
+            newQuation();
             } else
             {   
               div1=document.getElementById("list");
-              div1.innerHTML = document.forms["myform"]["eq"].value + "_" + '<span style="color:red">   &#x2718;</span>' + '\r\n' + div1.innerHTML ;
+              div1.innerHTML = document.forms["myform"]["eq"].value + cor_answ + '<span style="color:red">   &#x2718;</span>'+ '\r\n' + div1.innerHTML ;
               document.forms["myform"]["newinput"].value="";
+              document.forms["myform"]["eq"].setAttribute("level",level*0.8);
+              document.forms["myform"]["eq"].setAttribute("seq",1);
+            newQuation();
             }
          
       }
       
       function newQuation()
       {
+        var level = document.forms["myform"]["eq"].getAttribute("level");
         if (~~(Math.random()*2)==0)
         {// +
-          var x=~~(Math.random()*7+1);
-          var y=~~(Math.random()*4+1);
+          var x=~~(Math.random()*(level)+level/1+1);
+          var y=~~(Math.random()*level/1+1);
           document.forms["myform"]["eq"].value=+x+"+"+y+"=";
           document.forms["myform"]["eq"].setAttribute("data-res",x+y);
         } else
         {//-
-          var x=~~(Math.random()*7+2);
-          var y=~~(Math.random()*2+1);
+          var x=~~(Math.random()*(level)+level/1.5+1);
+          var y=~~(Math.random()*level/1.5+1);
           document.forms["myform"]["eq"].value=+x+'−'+y+"=";
           document.forms["myform"]["eq"].setAttribute("data-res",x-y);
         }
@@ -46,7 +54,7 @@
    <body style="font-size:500%">
 
       <form action="javascript:void(0);showResult();" name="myform" >
-         <output name="eq" data-res=0 >123</output>
+         <output name="eq" data-res=0 level=2 seq=1>123</output>
          <input type="text" name="newinput" autocomplete="off" size=5 style="font-size:100%"/>
       </form>
       <div id="list" style="white-space: pre-line;"></div>
