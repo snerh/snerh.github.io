@@ -5,11 +5,11 @@
    <script type="text/javascript">
       function showResult()
       {
-
-          var cor_answ = document.forms["myform"]["eq"].getAttribute("data-res");
-          var level = document.forms["myform"]["eq"].getAttribute("level")*1;
-          var seq = document.forms["myform"]["eq"].getAttribute("seq")*1;
-          var answ = document.forms["myform"]["newinput"].value;
+        var cor_answ = document.forms["myform"]["eq"].getAttribute("data-res");
+        var level = document.forms["myform"]["eq"].getAttribute("level")*1;
+        var seq = document.forms["myform"]["eq"].getAttribute("seq")*1;
+        var answ = document.forms["myform"]["newinput"].value;
+        if (answ!=""){
           if (cor_answ==answ){
               div1=document.getElementById("list");
             div1.innerHTML = document.forms["myform"]["eq"].value + cor_answ + '<span style="color:green">   &#x2714;</span>'  +'\r\n' + div1.innerHTML ;
@@ -28,6 +28,7 @@
               document.forms["myform"]["eq"].setAttribute("seq",1);
             newQuation();
             }
+        }
          
       }
       
