@@ -23,7 +23,8 @@
               document.forms["myform"]["input_line"].value="";
               document.forms["myform"]["eq"].setAttribute("level",level+(seq**1.5)/20);
               document.forms["myform"]["eq"].setAttribute("seq",seq+1);
-            
+
+                          
             snd_tada.currentTime = 0;
             snd_sad.pause();
             snd_tada.play();
@@ -53,8 +54,16 @@
 
       function newQuation()
       {
+       var onlymult = document.getElementById("mult").checked;
        var level = document.forms["myform"]["eq"].getAttribute("level");
-       switch (~~(Math.random()*~~(3.1-0.3/Math.log(level)) )) {
+        if (onlymult){
+          diff = 2;
+          multlevel = level+1.0;
+        } else {
+          diff = ~~(Math.random()*~~(3.1-0.3/Math.log(level)) );
+          multlevel = level - 20;
+        }
+       switch (diff) {
          case 0:
            // +
            var x=~~(Math.random()*(level)+~~(level/3)+1);
@@ -71,8 +80,17 @@
            break;
          case 2:
            //*
-           var x=~~(Math.random()*(level-20)/5+1);
-           var y=~~(Math.random()*(level-20)/5+1);
+
+           var a=~~((Math.random()+Math.random())*(multlevel)/3+1);
+           var b=~~((Math.random()+Math.random())*(multlevel)/4+2);
+           var x=0, y=0;
+           if (~~(Math.random()*2)==0) {
+             x=a
+             y=b             
+           } else {
+             x=b
+             y=a
+           }
            document.forms["myform"]["eq"].value=+x+'×'+y+"=";
            document.forms["myform"]["eq"].setAttribute("data-res",x*y);
            break;
@@ -118,12 +136,17 @@
    <body style="font-size:500%">
 
       <form action="javascript:void(0);showResult();" id="myform" >
-         <output name="eq" data-res=0 level=2 seq=1>123</output>
+         <output name="eq" data-res=0 level=2.0 seq=1>123</output>
          <input type="text" class="input" pattern="[0-9]+" inputmode="numeric" name="input_line" autocomplete="off" size=1 style="font-size:100%"/>
          <output name="stars">1</output>
          <input type="button" id="conf_button" onclick = "confHide()" width ="100" value="&#x2699;">
       </form>
-      <div id = "config" style="font-size:50%" hidden=true>Громкость: <input id="volume" type="range" min=0 max=1 step=0.05 value=0 />
+      <div id = "config" style="font-size:50%" hidden=true>
+        Громкость: <input id="volume" type="range" min=0 max=1 step=0.05 value=0 /><br>
+        <input id="mult" type="radio" name="onlymult" value=1 />
+        <label for="mult">Умножение</label><br>
+        <input id="all" type="radio" name="onlymult" value=0 checked/>
+        <label for="all">Все задания</label><br>
       </div>
       <div id="list" style="white-space: pre-line;"></div>
       <script>
