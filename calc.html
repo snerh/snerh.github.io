@@ -54,15 +54,24 @@
 
       function newQuation()
       {
-       var onlymult = document.getElementById("mult").checked;
+       var task_type = 0
+       var diff = 0	
+       var rb_list = document.getElementsByName("task_type");
+       for(i = 0; i < rb_list.length; i++) {
+                if(rb_list[i].checked) task_type = rb_list[i].value-0;
+		  }
        var level = document.forms["myform"]["eq"].getAttribute("level");
-        if (onlymult){
-          diff = 2;
-          multlevel = level+1.0;
-        } else {
-          diff = ~~(Math.random()*~~(3.1-0.3/Math.log(level)) );
-          multlevel = level - 20;
-        }
+       switch (task_type) {
+	 case 0: // all	 
+           diff = ~~(Math.random()*4);
+	   break;	 		  
+	 case 1: // add+sub	 
+           diff = ~~(Math.random()*2);
+	   break;	 		  
+ 	 case 2: // mult+div	 
+           diff = ~~(Math.random()*2+2);
+	   break;	 		  
+       }
        switch (diff) {
          case 0:
            // +
@@ -74,15 +83,15 @@
          case 1:
            //-
            var x=~~(Math.random()*(level)+2*level/3+1);
-           var y=~~(Math.random()*level/2+level/4+1);
+           var y=~~(Math.random()*level/3+level/3+1);
            document.forms["myform"]["eq"].value=+x+'−'+y+"=";
            document.forms["myform"]["eq"].setAttribute("data-res",x-y);
            break;
          case 2:
            //*
 
-           var a=~~((Math.random()+Math.random())*(multlevel)/3+1);
-           var b=~~((Math.random()+Math.random())*(multlevel)/4+2);
+           var a=~~((Math.random()+Math.random())*level/5+Math.log(level));
+           var b=~~((Math.random()+Math.random())*level/7+Math.log(level));
            var x=0, y=0;
            if (~~(Math.random()*2)==0) {
              x=a
@@ -94,6 +103,29 @@
            document.forms["myform"]["eq"].value=+x+'×'+y+"=";
            document.forms["myform"]["eq"].setAttribute("data-res",x*y);
            break;
+	case 3:
+           //:
+
+           var a=~~((Math.random()+Math.random())*level/5+Math.log(level));
+           var b=~~((Math.random()+Math.random())*level/7+Math.log(level));
+           var x=0, y=0;
+           if (~~(Math.random()*2)==0) {
+             x=a
+             y=b+1             
+           } else {
+             x=b
+             y=a+1
+           }
+           document.forms["myform"]["eq"].value=+x*y+':'+y+"=";
+           document.forms["myform"]["eq"].setAttribute("data-res",x);
+           break;
+	case 4:
+	   //
+	   document.forms["myform"]["eq"].value=+0+" error";
+           document.forms["myform"]["eq"].setAttribute("data-res",0);
+
+
+
        }
         document.forms["myform"]["stars"].innerHTML = starN(Math.log(level)/Math.log(2.3))+"<spacer>";
         document.forms["myform"].elements["input_line"].focus();
@@ -143,9 +175,11 @@
       </form>
       <div id = "config" style="font-size:50%" hidden=true>
         Громкость: <input id="volume" type="range" min=0 max=1 step=0.05 value=0 /><br>
-        <input id="mult" type="radio" name="onlymult" value=1 />
-        <label for="mult">Умножение</label><br>
-        <input id="all" type="radio" name="onlymult" value=0 checked/>
+        <input id="onlymult" type="radio" name="task_type" value=2 />
+        <label for="onlymult">Умножение/Деление</label><br> 
+	<input id="onlysum" type="radio" name="task_type" value=1 />
+        <label for="onlysum">Сложение/Вычитание</label><br>
+        <input id="all" type="radio" name="task_type" value=0 checked/>
         <label for="all">Все задания</label><br>
       </div>
       <div id="list" style="white-space: pre-line;"></div>
